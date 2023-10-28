@@ -53,6 +53,7 @@ export default {
   overflow: hidden;
   flex: 1;
   background-color: #fff;
+  min-height: 10vh;
 }
 </style>
 

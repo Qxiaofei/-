@@ -1,51 +1,10 @@
 <!-- 顶部信息栏 -->
 <template>
     <header id="topbar">
-        <el-dialog
-            :append-to-body="true"
-            style="z-index: 2028px"
-            title="修改密码"
-            :visible.sync="dialogVisible"
-            width="30%"
-        >
-            <el-form
-                status-icon
-                ref="ruleForm2"
-                label-width="100px"
-                class="demo-ruleForm"
-            >
-                <el-form-item label="旧密码" prop="pass">
-                    <el-input
-                        type="password"
-                        v-model="oldPsw"
-                        autocomplete="off"
-                    ></el-input>
-                </el-form-item>
-                <el-form-item label="新密码" prop="pass">
-                    <el-input
-                        type="password"
-                        v-model="newPsw"
-                        autocomplete="off"
-                    ></el-input>
-                </el-form-item>
-                <el-form-item label="确认新密码" prop="checkPass">
-                    <el-input
-                        type="password"
-                        v-model="confirmNewPsw"
-                        autocomplete="off"
-                    ></el-input>
-                </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="resetPsw">确 定</el-button>
-            </span>
-        </el-dialog>
-
         <el-row>
             <el-col :span="6" class="topbar-left">
                 <i class="el-icon-a-03" style="font-size: 36px; color: white;margin: 23px 5px 0 0;"></i>
-                <span style="font-size: 32px; font-weight: 600; color: white;">在线考试系统后台</span>
+                <span style="font-size: 32px; font-weight: 600; color: white;">系统后台</span>
                 
             </el-col>
             <el-col :span="18" class="topbar-right">
@@ -61,13 +20,6 @@
                     <transition name="fade">
                         <div class="out" ref="out" v-show="login_flag">
                             <ul>
-                                <li v-if="role == 0">
-                                    <a
-                                        @click="dialogVisible = true"
-                                        href="javascript:;"
-                                        >修改密码</a
-                                    >
-                                </li>
                                 <li class="exit" @click="exit()">
                                     <a href="javascript:;">退出登录</a>
                                 </li>
@@ -145,8 +97,8 @@ export default {
         ...mapMutations(["toggle"]),
         getUserInfo() {
             //获取用户信息
-            let userName = this.$cookies.get("cname");
-            let userId = this.$cookies.get("cid");
+            let userName = this.$cookies.get("userName");
+            let userId = this.$cookies.get("userId");
             this.user.userName = userName;
             this.user.userId = userId;
         },
@@ -156,8 +108,8 @@ export default {
         exit() {
             let role = this.$cookies.get("role");
             this.$router.push({ path: "/" }); //跳转到登录页面
-            this.$cookies.remove("cname"); //清除cookie
-            this.$cookies.remove("cid");
+            this.$cookies.remove("userName"); //清除cookie
+            this.$cookies.remove("userId");
             this.$cookies.remove("role");
             this.$cookies.remove("rb_token"); //清除cookie
             this.$cookies.remove("rb_role");
@@ -189,8 +141,9 @@ export default {
 #topbar .topbar-left {
     height: 80px;
     display: flex;
-    justify-content: center;
+    justify-content:left;
     overflow: hidden;
+    padding-left: 20px;
 }
 .topbar-left .icon-kaoshi {
     font-size: 60px;

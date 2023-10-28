@@ -1,6 +1,6 @@
 <!-- 用户登录界面 -->
 <template>
-    <div id="login">
+    <div id="login" @keyup.enter="login()" >
         <div class="bg"></div>
         <el-row class="main-container">
             <el-col :lg="8" :xs="16" :md="10" :span="10">
@@ -19,7 +19,7 @@
                             <el-form-item label="用户名" class="custom-form-item">
                                 <el-input
                                     v-model="formLabelAlign.username"
-                                    placeholder="请输入8位员工编号"
+                                    placeholder="请输入UASS或8位员工编号"
                                 ></el-input>
                             </el-form-item>
                             <el-form-item label="密码">
@@ -27,6 +27,7 @@
                                     v-model="formLabelAlign.password"
                                     placeholder="请输入密码"
                                     type="password"
+                                    @keyup.enter="login()" 
                                 ></el-input>
                             </el-form-item>
                             <div class="submit">
@@ -68,13 +69,13 @@ export default {
                 this.$message("请输入用户名");
                 return;
             }
-            if (
-                !/^\d+$/.test(this.formLabelAlign.username) ||
-                this.formLabelAlign.username.toString().length != 8
-            ) {
-                this.$message("用户名有误");
-                return;
-            }
+            // if (
+            //     !/^\d+$/.test(this.formLabelAlign.username) ||
+            //     this.formLabelAlign.username.toString().length != 8
+            // ) {
+            //     this.$message("用户名有误");
+            //     return;
+            // }
             if (this.formLabelAlign.password == "") {
                 this.$message("请输入密码");
                 return;
@@ -84,15 +85,39 @@ export default {
                 url: `/api/login`,
                 method: "post",
                 data: {
-                    ...this.formLabelAlign,
+                    username:this.formLabelAlign.username,
+                    password:require('crypto').createHash('sha256').update(this.formLabelAlign.password).digest('hex'),
                 },
             })
                 .then((res) => {
                     let resData = res.data.data;
-                    if (resData != null) {
+                    if (resData != null)   {
                             this.$cookies.set("userId", resData.userId);
                             this.$cookies.set("userName", resData.userName);
-                            this.$router.push({ path: "/student/manager" });
+                            this.$cookies.set("role", resData.role);
+                            if (resData.userUass == "admin"){
+                                this.$message({
+                                    message: '登陆成功',
+                                    type: 'success'
+                                }),
+                                this.$router.push({ path: "/index" });
+                            }
+                            else {
+                                if (this.formLabelAlign.password == "123456"){
+                                    this.$message({
+                                        message: '登陆成功，请修改初始密码',
+                                        type: 'success'
+                                    }),
+                                    this.$router.push({ path: "/pass" });
+                                }
+                                else{
+                                    this.$message({
+                                        message: '登陆成功',
+                                        type: 'success'
+                                    }),
+                                    this.$router.push({ path: "/user" });
+                                }
+                            }
                     }
                     if (resData == null) {
                         //错误提示

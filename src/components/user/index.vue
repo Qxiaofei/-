@@ -62,9 +62,6 @@
 <script>
 import { mapState } from "vuex";
 export default {
-    components: {
-        "v-footer": myFooter,
-    },
     data() {
         return {
             flag: false,

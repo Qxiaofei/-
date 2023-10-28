@@ -2,7 +2,7 @@
 <template>
     <div id="answer">
         <!--顶部信息栏-->
-        <div class="top">
+        <!-- <div class="top">
             <ul class="item">
                 <li>
                     <i class="el-icon-a-061" style="font-size: 32px;">
@@ -10,7 +10,7 @@
                     </i>
                 </li>
             </ul>
-        </div>
+        </div> -->
         <div class="flexarea">
             <!--左边题目编号区-->
             <transition name="slider-fade">
@@ -41,10 +41,8 @@
                                         @click="change(index1)"
                                         :class="{
                                             border:
-                                                index == index1 &&
-                                                currentType == 1,
+                                                index == index1,
                                             bg:
-                                                bg_flag &&
                                                 questions[index1].isClick ==true,
                                         }"
                                     >
@@ -69,7 +67,7 @@
                                 v-model="radio[index]"
                                 @change="getChangeLabel"
                             >
-                                <el-radio :label="1"><a>几乎从不</a></el-radio>
+                                <el-radio :label="1" ><a>几乎从不</a></el-radio>
                                 <el-radio :label="2"><a>极少</a></el-radio>
                                 <el-radio :label="3"><a>偶尔</a></el-radio>
                                 <el-radio :label="4"><a>很少</a></el-radio>
@@ -128,29 +126,28 @@ export default {
         };
     },
     created() {
-        this.getCookies();
         this.getExamData();
     },
     methods: {
         finishExam() {
             var i = 0;
-            for(i;i<questions.length;i++){
+            for(i;i<this.questions.length;i++){
                 if (this.questions[i]["isClick"] != true){
-                    alert("请全部评测完成后在提交");
+                    alert("请全部评测完成后再提交");
                     break;
                 }
             }
-            if (i==questions.length){
-                    this.commit();    
+            if (i>=this.questions.length){
+                this.commit();    
             }
         },
         getExamData() {
             //获取当前试卷所有信息
             let role = this.$route.query.role; //获取路由传递过来的试卷编号
             this.role = role;
-            this.$axios(`/api/exam/${role}`).then((res) => {
+            this.$axios(`/api/Qexams/${role}`).then((res) => {
                 this.questions= res.data.data;
-                this.showQuestion = questions[0].question;
+                this.showQuestion = this.questions[0].qu;
                 });
         },
         change(index) {
@@ -162,9 +159,9 @@ export default {
                 if (this.index <= 0) {
                     this.index = 0;
                 }
-                console.log(`总长度${len}`);
-                console.log(`当前index:${index}`);
-                this.showQuestion = questions[this.index].question; //获取题目信息
+                // console.log(`总长度${len}`);
+                // console.log(`当前index:${index}`);
+                this.showQuestion = this.questions[this.index].qu; //获取题目信息
                 this.number = this.index + 1;
             } else if (this.index >= len) {
                 this.index = len-1;
@@ -174,11 +171,7 @@ export default {
         getChangeLabel(val) {
             //获取选择题作答选项
             this.radio[this.index] = val; //当前选择的序号
-            if (val) {
-                let data = this.questions;
-                this.bg_flag = true;
-                this.questions[this.index]["isClick"] = true;
-            }
+            this.questions[this.index]["isClick"] = true;
         },
         previous() {
             //上一题
@@ -193,26 +186,53 @@ export default {
         },
         commit() {
             var i =0;
+            this.score = 0;
             for (i;i<this.questions.length;i++){
                 this.score += this.radio[i];
             }
+            // this.$router.push({ path: "/student" });
             //提交成绩信息
-            this.$axios({
-                url: "/api/score",
-                method: "post",
-                data: {
-                    score:this.score,
-                    role:this.role,
-                    userId:this.$cookies.get("userId"),
-                },
-            }).then((res) => {
-                if (res.data.code == 200) {
-                    alert("提交成功"),
-                    this.$router.push({
-                        path: "/student",
+            switch(this.role){
+                case '1':
+                    this.$axios({
+                        url: "/api/selfExamsScore",
+                        method: "put",
+                        data: {
+                        selfevaluation:this.score,
+                        userId:this.$cookies.get("userId"),
+                    },
+                    }).then((res) => {
+                        if (res.data.code == 200) {
+                            alert("提交成功"),
+                            this.$router.push({
+                                path: "/user",
+                            });
+                        }
                     });
-                }
-            });
+                    break;
+                case '2':
+                    this.$axios({
+                        url: "/api/othersExamsScore",
+                        method: "put",
+                        data: {
+                        score:this.score,
+                        bpjid:this.$route.query.Id,
+                        pjid:this.$cookies.get("userId"),
+                    },
+                    }).then((res) => {
+                        if (res.data.code == 200) {
+                            this.$message({
+                                    message: '提交成功',
+                                    type: 'success'
+                                }),
+                            this.$router.push({
+                                path: "/user",
+                            });
+                        }
+                    });
+                    break;
+            }
+            
         },
     },
     computed: mapState(["isPractice"]),
@@ -408,10 +428,11 @@ export default {
     flex-direction: column;
 }
 .l-bottom .item ul {
+    margin-left: 20px;
     width: 100%;
     margin-bottom: -8px;
     display: flex;
-    justify-content: space-around;
+    justify-content: left;
     flex-wrap: wrap;
 }
 .l-bottom .item ul li a {
@@ -494,6 +515,7 @@ export default {
 }
 #answer {
     padding-bottom: 30px;
+    min-height: 85vh;
 }
 .icon20 {
     font-size: 20px;

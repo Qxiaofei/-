@@ -10,7 +10,8 @@
       @close="handleClose" 
       :collapse="flag"
       background-color="CornflowerBlue"  
-      menu-trigger="click" router>
+      menu-trigger="click" 
+      router>
       <el-submenu v-for="(item,index) in menu" :index='item.index' :key="index">
         <template slot="title">
           <div class="left-width">
@@ -39,7 +40,6 @@ export default {
   },
   computed: mapState(["flag","menu"]),
   created() {
-    this.addData()
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -52,17 +52,6 @@ export default {
     handleTitle(index) {
       this.bus.$emit('sendIndex',index)
     },
-    addData() {
-      let role = this.$cookies.get("role")
-      if(role == 0) {
-        this.menu.push({
-          index: '5',
-          title: '教师管理',
-          icon: 'el-icon-a-05',
-          content:[{item1:'教师管理',path:'/teacherManage',icon:"el-icon-a-041"},{item2: '添加教师',path: '/addTeacher',icon:"el-icon-a-07"}],
-        })
-      }
-    }
   },
 }
 </script>
@@ -76,13 +65,12 @@ export default {
   color: #fff;
 }
 .left-width {
-  width: 213px;
+  width: 200px;
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  min-height: 900px;
+  min-height: 90vh;
 }
 #left {
-  height: 900px;
   background-color: CornflowerBlue;
   z-index: 0;
 }

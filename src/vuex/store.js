@@ -15,40 +15,28 @@ const state = {
   menu: [
   {
     index: '1',
-    title: '考试管理',
+    title: '评测管理',
     icon: 'el-icon-a-061',
-    content: [{ item2: '考试查询', path: '/selectExam', icon:"el-icon-a-042" }, { item3: '添加考试', path: '/addExam', icon:"el-icon-a-07" }],
+    content: [{ item2: '评测结果查询', path: '/selectExam', icon:"el-icon-a-042" }],
   },
   {
     index: '2',
-    title: '题库管理',
+    title: '用户管理',
     icon: 'el-icon-a-011',
-    content: [{ item2: '题目列表', path: '/selectAnswer', icon:"el-icon-a-041" }, { item3: '新增题目', path: '/addAnswer', icon:"el-icon-a-07" }, { path: '/addAnswerChildren' }],
+    content: [{ item2: '密码重置', path: '/resetPWD', icon:"el-icon-a-041" }],
   },
-  {
-    index: '3',
-    title: '成绩查询',
-    icon: 'el-icon-a-021',
-    content: [{ item1: '学生成绩查询', path: '/allStudentsGrade', icon:"el-icon-a-042" }, { path: '/grade' }, { item2: '成绩分段查询', path: '/selectExamToPart', icon:"el-icon-a-042" }, { path: '/scorePart' }],
-  },
-  {
-    index: '4',
-    title: '学生管理',
-    icon: 'el-icon-a-01',
-    content: [{ item1: '学生管理', path: '/studentManage', icon:"el-icon-a-041" }, { item2: '添加学生', path: '/addStudent', icon:"el-icon-a-07" }],
-  },
-    // {
-    //   index: '5',
-    //   title: '教师管理',
-    //   icon: 'icon-Userselect',
-    //   content:[{item1:'教师管理',path:'/teacherManage'},{item2: '添加教师',path: '/addTeacher'}],
-    // },
-    // {
-    //   index: '7',
-    //   title: '模块管理',
-    //   icon: 'icon-module4mokuai',
-    //   content:[{item1:'模块操作',path:'/module'}],
-    // }
+  // {
+  //   index: '3',
+  //   title: '成绩查询',
+  //   icon: 'el-icon-a-021',
+  //   content: [{ item1: '学生成绩查询', path: '/allStudentsGrade', icon:"el-icon-a-042" }, { path: '/grade' }, { item2: '成绩分段查询', path: '/selectExamToPart', icon:"el-icon-a-042" }, { path: '/scorePart' }],
+  // },
+  // {
+  //   index: '4',
+  //   title: '学生管理',
+  //   icon: 'el-icon-a-01',
+  //   content: [{ item1: '学生管理', path: '/studentManage', icon:"el-icon-a-041" }, { item2: '添加学生', path: '/addStudent', icon:"el-icon-a-07" }],
+  // },
   ],
 }
 const mutations = {

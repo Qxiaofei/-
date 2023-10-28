@@ -26,78 +26,29 @@ export default new Router({
           component: () => import('@/components/common/hello')
         },
         {
-          path:'/grade', //学生成绩
-          component: () => import('@/components/charts/grade')
+          path: '/selectExam', //查询测评结果
+          component: () => import('@/components/admin/selectExam')
         },
         {
-          path: '/selectExamToPart', //学生分数段
-          component: () => import('@/components/teacher/selectExamToPart')
-        },
-        {
-          path: '/scorePart',
-          component: () => import('@/components/charts/scorePart')
-        },
-        {
-          path: '/allStudentsGrade', //所有学生成绩统计
-          component: () => import('@/components/teacher/allStudentsGrade')
-        },
-        // {
-        //   path: '/examDescription', //考试管理功能描述
-        //   component: () => import('@/components/teacher/examDescription')
-        // },
-        {
-          path: '/selectExam', //查询所有考试
-          component: () => import('@/components/teacher/selectExam')
-        },
-        {
-          path: '/addExam', //添加考试
-          component: () => import('@/components/teacher/addExam')
-        },
-        // {
-        //   path: '/answerDescription', //题库管理功能介绍
-        //   component: ()=> import('@/components/teacher/answerDescription')
-        // },
-        {
-          path: '/selectAnswer', //查询所有题库
-          component: () => import('@/components/teacher/selectAnswer')
-        },
-        {
-          path: '/addAnswer', //增加题库主界面
-          component: () => import('@/components/teacher/addAnswer')
-        },
-        {
-          path: '/editAnswerChildren', //编辑题库主界面
-          component: () => import('@/components/teacher/editAnswerChildren')
-        },
-        {
-          path: '/addAnswerChildren', //点击试卷跳转到添加题库页面
-          component: () => import('@/components/teacher/addAnswerChildren')
-        },
-        {
-          path: '/studentManage', //学生管理界面
-          component: () => import('@/components/teacher/studentManage')
-        },
-        {
-          path: '/addStudent', //添加学生
-          component: () => import('@/components/teacher/addStudent')
-        },
-        {
-          path: '/teacherManage',
-          component: () => import('@/components/admin/tacherManage')
-        },
-        {
-          path: '/addTeacher',
-          component: () => import ('@/components/admin/addTeacher')
+          path: '/resetPWD.vue', //密码重置
+          component: () => import('@/components/admin/resetPWD')
         }
       ]
     },
     {
-      path: '/student',
-      component: () => import('@/components/student/index'),
+      path: '/user',
+      component: () => import('@/components/user/index'),
       children: [
-        {path:"/",component: ()=> import('@/components/student/myExam')},
-        {path: '/answer',component: () => import('@/components/student/answer')},
-        {path: '/manager', component: () => import('@/components/student/manager')},
+        {path:"/",component: ()=> import('@/components/user/myExam')},
+        {path: '/answer',component: () => import('@/components/user/answer')},
+        {path: '/manager', component: () => import('@/components/user/manager')},
+      ]
+    },
+    {
+      path: '/pass',
+      component: () => import('@/components/user/index'),
+      children: [
+        {path:"/",component: ()=> import('@/components/user/manager')},
       ]
     }
     
