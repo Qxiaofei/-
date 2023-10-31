@@ -1,7 +1,15 @@
 //查询所有考试
 <template>
   <div class="exam">
-    <el-button type="primary" @click="down()" icon="el-icon-a-07" style="margin-bottom:20px">导出</el-button>
+    <el-form :inline="true" class="demo-form-inline"  >
+      <el-form-item label="用户姓名">
+        <el-input v-model="userName" ></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="getExamInfo()" icon="el-icon-a-042" style="font-size: 20px;">查询</el-button>
+        <el-button type="primary" @click="down()" icon="el-icon-download" style="font-size: 20px;">导出</el-button>
+      </el-form-item>
+    </el-form>
 
     <el-table :data="pagination" border>
       <el-table-column prop="name" label="姓名"  width="100"></el-table-column>
@@ -20,7 +28,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="pagination.current"
-      :page-sizes="[10, 20, 30, 40]"
+      :page-sizes="[5, 10, 20, 30]"
       :page-size="pagination.size"
       layout="total, sizes, prev, pager, next, jumper"
       :total="pagination.total"
@@ -40,9 +48,10 @@ export default {
         //分页后的考试信息
         current: 1, //当前页
         total: null, //记录条数
-        size: 10, //每页条数
+        size: 5, //每页条数
       },
       downFile:{},
+      userName:"",
     };
   },
   created() {
@@ -51,14 +60,29 @@ export default {
   },
   methods: {
     getExamInfo() {
-      this.$axios({
-        url:`/api/admin1`,
-        method: "get",
-      } )
+      if (this.userName == "" || this.userName == null){
+        this.$axios(`/api/admin1/${this.pagination.current}/${this.pagination.size}`)
         .then((res) => {
-          this.pagination = res.data.data;
+          var size = this.pagination.size;
+          var current = this.pagination.current;
+          this.pagination = res.data.data.records;
+          this.pagination.size = size;
+          this.pagination.current = current;
         })
         .catch((error) => {});
+      }
+      else {
+        this.$axios(`/api/admin1/${this.userName}`)
+        .then((res) => {
+          var size = this.pagination.size;
+          var current = this.pagination.current;
+          this.pagination = res.data.data;
+          this.pagination.size = size;
+          this.pagination.current = current;
+        })
+        .catch((error) => {});
+      }
+      
     },
     //改变当前记录条数
     handleSizeChange(val) {

@@ -18,7 +18,7 @@ export default new Router({
       component: () => import('@/components/common/login')
     },
     {
-      path: '/index', //教师主页
+      path: '/index', //管理端
       component: () => import('@/components/admin/index'),
       children: [
         {
@@ -30,7 +30,7 @@ export default new Router({
           component: () => import('@/components/admin/selectExam')
         },
         {
-          path: '/resetPWD.vue', //密码重置
+          path: '/resetPWD', //密码重置
           component: () => import('@/components/admin/resetPWD')
         }
       ]

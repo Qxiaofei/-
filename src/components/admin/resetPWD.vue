@@ -17,7 +17,7 @@ export default {
   name:"exam",
   data() {
     return {
-        userId:" ",
+        userId:"",
     };
   },
   created() {

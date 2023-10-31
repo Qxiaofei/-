@@ -11,7 +11,7 @@
                 <li  class="item"
                     v-for="(item, index) in selfEva"
                     :key="index">
-                    <h4>{{ item.name }}-金融科技部</h4>
+                    <h4>{{ item.name }}</h4>
                     <a v-if="!item.selfevaluation" class = "start" @click="toExamMsg1()" >开始自评</a>
                     <a v-if="item.selfevaluation" class = "end">已自评</a>
                 </li>
@@ -24,7 +24,7 @@
                     v-for="(item, index) in otherEva1"
                     :key="index"
                 >
-                    <h4>{{ item.bpjName }}-金融科技部</h4>
+                    <h4>{{ item.bpjName }}-{{ item.instno }}</h4>
                     <a class = "start" @click="toExamMsg2(item)" >开始评测</a>
                 </li>
             </ul>
@@ -39,7 +39,7 @@
                     v-for="(item, index) in otherEva2"
                     :key="index"
                 >
-                    <h4 v-if="item.score">{{ item.bpjName }}-金融科技部</h4>
+                    <h4 v-if="item.score">{{ item.bpjName }}-{{ item.instno }}</h4>
                     <a class = "end">已评测</a>
                 </li>
             </ul>

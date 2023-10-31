@@ -22,8 +22,8 @@ const state = {
   {
     index: '2',
     title: '用户管理',
-    icon: 'el-icon-a-011',
-    content: [{ item2: '密码重置', path: '/resetPWD', icon:"el-icon-a-041" }],
+    icon: 'el-icon-user',
+    content: [{ item2: '密码重置', path: '/resetPWD', icon:"el-icon-unlock" }],
   },
   // {
   //   index: '3',

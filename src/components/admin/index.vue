@@ -31,10 +31,27 @@ export default {
   },
   data() {
     return {
-      username: '许如梦'
+      username:"",
     }
   },
+  created() {
+    this.checkRole();
+},
   methods: {
+    checkRole(){
+      if (this.$cookies.get("role") != 0){
+        this.$message({
+          message: '无权限登录',
+          type: 'error'
+        })
+      this.$router.push({ path: "/" }); //跳转到登录页面
+      this.$cookies.remove("userName"); //清除cookie
+      this.$cookies.remove("userId");
+      this.$cookies.remove("role");
+      this.$cookies.remove("rb_token"); //清除cookie
+      this.$cookies.remove("rb_role");
+      }
+    }
     
   }
 }
