@@ -124,12 +124,12 @@ li {
 }
 #student .list li {
     padding: 0 20px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
-#student .list li:hover {
+/* #student .list li:hover {
     background-color: #0195ff;
     transition: all 2s ease;
-}
+} */
 #student .list li:hover a {
     color: #fff;
 }

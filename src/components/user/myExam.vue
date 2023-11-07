@@ -12,7 +12,7 @@
                     v-for="(item, index) in selfEva"
                     :key="index">
                     <h4>{{ item.name }}</h4>
-                    <a v-if="!item.selfevaluation" class = "start" @click="toExamMsg1()" >开始自评</a>
+                    <a v-if="!item.selfevaluation" class = "start" @click="toExamMsg1(item)" >开始自评</a>
                     <a v-if="item.selfevaluation" class = "end">已自评</a>
                 </li>
             </ul> 
@@ -24,14 +24,14 @@
                     v-for="(item, index) in otherEva1"
                     :key="index"
                 >
-                    <h4>{{ item.bpjName }}-{{ item.instno }}</h4>
+                    <h4>{{ item.bpjName }}-{{ item.instName }}</h4>
                     <a class = "start" @click="toExamMsg2(item)" >开始评测</a>
                 </li>
             </ul>
             <hr>
              <ul class="top">
                 <li class="order"><i class="el-icon-a-041" style="font-size: 20px;"> 已评测人员列表（按照姓名拼音排序）</i></li>
-            </ul>
+            </ul> 
             <!-- 展示已测评的信息 -->
             <ul class="paper" >
                 <li
@@ -39,7 +39,7 @@
                     v-for="(item, index) in otherEva2"
                     :key="index"
                 >
-                    <h4 v-if="item.score">{{ item.bpjName }}-{{ item.instno }}</h4>
+                    <h4 v-if="item.score">{{ item.bpjName }}-{{ item.instName }}</h4>
                     <a class = "end">已评测</a>
                 </li>
             </ul>
@@ -106,16 +106,16 @@ export default {
 
         },
         //跳转到评测详情页
-        toExamMsg1() {
+        toExamMsg1(exam1) {
             this.$router.push({
                 path: "/answer",
-                query: { role:1},
+                query: { role:1,name:exam1.name,Id:this.$cookies.get("userId")},
             });
         },
         toExamMsg2(exam2) {
             this.$router.push({
                 path: "/answer",
-                query: { Id:exam2.bpjId, role:2},
+                query: { Id:exam2.bpjId, role:2, name:exam2.bpjName},
             });
         },
     },

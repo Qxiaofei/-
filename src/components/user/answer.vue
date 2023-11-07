@@ -15,6 +15,9 @@
             <!--左边题目编号区-->
             <transition name="slider-fade">
                 <div class="left" v-if="slider_flag">
+                    <div class="l-top">
+                        <a>当前被评价人：{{bpjName}}</a>
+                    </div>
                     <ul class="l-top">
                         <li>
                             <a href="javascript:;"></a>
@@ -111,6 +114,7 @@ export default {
             radio: [], //保存考生所有选择题的选项
             title: "请选择正确的选项",
             index: 0, //全局index
+            bpjName:"",
             userInfo: {
                 //用户信息
                 name: null,
@@ -143,12 +147,23 @@ export default {
         },
         getExamData() {
             //获取当前试卷所有信息
-            let role = this.$route.query.role; //获取路由传递过来的试卷编号
+            this.bpjName = this.$route.query.name;
+            let role = this.$route.query.role; //获取路由传递过来的考试标志
             this.role = role;
-            this.$axios(`/api/Qexams/${role}`).then((res) => {
-                this.questions= res.data.data;
-                this.showQuestion = this.questions[0].qu;
-                });
+            let bpjId = this.$route.query.Id;
+            let pjId = this.$cookies.get("userId");
+            this.$axios(`/api/Qexams/${role}/${pjId}/${bpjId}`).then((res) => {
+                if (res.data.code == 10000) {
+                    alert("该评价人已评价完毕，不可再次评价"),
+                    this.$router.push({
+                        path: "/user",
+                    });
+                } 
+                else{
+                    this.questions= res.data.data;
+                    this.showQuestion = this.questions[0].qu;
+                }
+            });
         },
         change(index) {
             //选择题

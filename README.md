@@ -14,4 +14,4 @@ npm config set registry https://registry.npm.taobao.org
 npm install --force
 
 # 启动项目
-npm run dev
+npm run dev16
